@@ -3,6 +3,8 @@ package com.suman.EBookStore.controller;
 import com.suman.EBookStore.Entity.Books;
 import com.suman.EBookStore.service.EBookStoreService;
 import com.suman.EBookStore.service.EBookStoreServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 public class EBookController {
+    private static  final Logger logger= LogManager.getLogger(EBookController.class);
      List<Books> booklist;
     private EBookStoreService eBookStoreService;
     @Autowired
@@ -27,6 +30,7 @@ public class EBookController {
 
     @GetMapping("/api/getAllBooks")
     public ResponseEntity<List<Books>> getAllBooks(){
+        logger.info("getAll the books in the store");
        return eBookStoreService.getAllBooks();
 
     }
