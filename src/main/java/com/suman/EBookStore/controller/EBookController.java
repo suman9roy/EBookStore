@@ -1,5 +1,6 @@
 package com.suman.EBookStore.controller;
 
+import com.suman.EBookStore.Dto.BooksDto;
 import com.suman.EBookStore.Entity.Books;
 import com.suman.EBookStore.service.EBookStoreService;
 import com.suman.EBookStore.service.EBookStoreServiceImpl;
@@ -29,25 +30,29 @@ public class EBookController {
     }
 
     @GetMapping("/api/getAllBooks")
-    public ResponseEntity<List<Books>> getAllBooks(){
+    public ResponseEntity<List<BooksDto>> getAllBooks(){
         logger.info("getAll the books in the store");
        return eBookStoreService.getAllBooks();
 
     }
 
     @PostMapping("/api/addBook")
-    public ResponseEntity<?> addBook(@RequestBody Books books){
-        return eBookStoreService.addBook(books);
+    public ResponseEntity<?> addBook(@RequestBody BooksDto booksDto){
+        return eBookStoreService.addBook(booksDto);
 
     }
     @PutMapping("/api/updateBook/{id}")
-    public ResponseEntity<?> updateBook(@PathVariable int id,@RequestBody Books books){
-        return eBookStoreService.updateBook(id,books);
+    public ResponseEntity<?> updateBook(@PathVariable int id,@RequestBody BooksDto booksDto){
+        return eBookStoreService.updateBook(id,booksDto);
         }
 
     @DeleteMapping("/api/deleteBook")
     public ResponseEntity<?> deleteBookById(@RequestParam int id){
         return eBookStoreService.deleteBooksById(id);
 
+    }
+    @GetMapping("/api/getBookById/{id}")
+    public  ResponseEntity<?> getBooksById(@PathVariable int id){
+        return  eBookStoreService.getBookById(id);
     }
 }
