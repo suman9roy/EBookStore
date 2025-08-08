@@ -7,6 +7,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -53,16 +57,17 @@ public class EBookStoreServiceImpl implements EBookStoreService {
 
     }
 
-    @Override
-    public ResponseEntity<List<BooksDto>> getAllBooks() {
-        logger.info("All the records has been fetched");
-        List<Books> bookList=eBookstoreRepo.findAll();
-        if(bookList.isEmpty()){
-            ResponseEntity.notFound();
-        }
-        List<BooksDto> bookDtoList=bookList.stream().map(books->modelMapper.map(books,BooksDto.class)).toList();
-        return ResponseEntity.ok(bookDtoList);
 
+    @Override
+    public ResponseEntity<Page<BooksDto>> getAllBooks(int page, int size, String sortBy, boolean ascending) {
+        Sort sort= ascending ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pagable=PageRequest.of(page, size,sort);
+        Page<Books> pageOfBooks=eBookstoreRepo.findAll(pagable);
+        Page<BooksDto> pageOfBooksDto=pageOfBooks.map(x-> {return new BooksDto(x.getBookId(),
+                x.getBookName(),
+                x.getPrice());});
+        return new ResponseEntity<>(pageOfBooksDto,HttpStatus.OK);
     }
 
     @Override

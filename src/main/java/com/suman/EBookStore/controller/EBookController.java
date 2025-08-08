@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +32,14 @@ public class EBookController {
     }
 
     @GetMapping("/api/getAllBooks")
-    public ResponseEntity<List<BooksDto>> getAllBooks(){
+    public ResponseEntity<Page<BooksDto>> getAllBooks(
+            @RequestParam(defaultValue = "0")int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "bookId") String sortBy,
+            @RequestParam(defaultValue = "true") boolean ascending
+            ) {
         logger.info("getAll the books in the store");
-       return eBookStoreService.getAllBooks();
+       return eBookStoreService.getAllBooks(page,size,sortBy,ascending);
 
     }
 
