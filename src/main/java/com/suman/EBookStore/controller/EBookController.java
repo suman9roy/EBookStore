@@ -4,6 +4,7 @@ import com.suman.EBookStore.Dto.BooksDto;
 import com.suman.EBookStore.Entity.Books;
 import com.suman.EBookStore.service.EBookStoreService;
 import com.suman.EBookStore.service.EBookStoreServiceImpl;
+import jakarta.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class EBookController {
     }
 
     @PostMapping("/api/addBook")
-    public ResponseEntity<?> addBook(@RequestBody BooksDto booksDto){
+    public ResponseEntity<?> addBook(@Valid @RequestBody BooksDto booksDto){
         return eBookStoreService.addBook(booksDto);
 
     }

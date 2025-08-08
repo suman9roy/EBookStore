@@ -1,6 +1,7 @@
 package com.suman.EBookStore.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 @Entity
 @Data
